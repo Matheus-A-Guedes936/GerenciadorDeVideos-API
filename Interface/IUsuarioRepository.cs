@@ -1,0 +1,15 @@
+﻿using GerenciadorDeVideos_API.Model;
+
+namespace GerenciadorDeVideos_API.Interface
+{
+    public interface IUsuarioRepository
+    {
+        Task<List<UsuarioModel>> ObterTodosUsuarios();
+        Task<UsuarioModel?> ObterUsuarioPorId(int usuarioID);
+        Task<List<UsuarioModel>> ObterUsuarioPorNome(string usuarioNome);
+        Task<UsuarioModel?> ObterUsuarioPorEmail(string usuarioEmail);
+        Task<UsuarioModel?> AdicionarUsuario(UsuarioModel usuario);
+        Task<UsuarioModel> EditarUsuario(UsuarioModel usuario);
+        Task RemoverUsuario(UsuarioModel usuario);
+    }
+}
