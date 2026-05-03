@@ -1,4 +1,6 @@
-﻿namespace GerenciadorDeVideos_API.Model
+﻿using GerenciadorDeVideos_API.Model.Enums;
+
+namespace GerenciadorDeVideos_API.Model
 {
     public class VideosModel
     {
@@ -8,7 +10,7 @@
 
         public int Id { get; set; }
         public string Titulo { get; set; }
-        public string Categoria { get; set; }
+        public CategoriaVideo Categoria { get; set; }
         public string? CaminhoVideo { get; set; }
      }
 }
