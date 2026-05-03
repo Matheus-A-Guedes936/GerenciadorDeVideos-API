@@ -1,6 +1,7 @@
 ﻿using GerenciadorDeVideos_API.Data;
 using GerenciadorDeVideos_API.Interface;
 using GerenciadorDeVideos_API.Model;
+using GerenciadorDeVideos_API.Model.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace GerenciadorDeVideos_API.Repository
@@ -30,7 +31,7 @@ namespace GerenciadorDeVideos_API.Repository
             return await _context.Videos.Where(v => v.Titulo.Contains(busca)).ToListAsync();
         }
 
-        public async Task<List<VideosModel>> BuscarVideosPorCategoria(string categoria)
+        public async Task<List<VideosModel>> BuscarVideosPorCategoria(CategoriaVideo categoria)
         {
             return await _context.Videos.Where(v => v.Categoria == categoria).ToListAsync();
         }
