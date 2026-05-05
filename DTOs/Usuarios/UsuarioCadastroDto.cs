@@ -6,15 +6,15 @@ namespace GerenciadorDeVideos_API.DTOs.Usuarios
     {
         [Required(ErrorMessage ="Nome obrigatorio")]
         [MinLength(3, ErrorMessage ="O Nome De Usuario deve possuir ao menos 3 caracteres")]
-        string Nome {  get; set; }
+        public string Nome {  get; set; }
 
         [Required]
         [EmailAddress(ErrorMessage ="Email invalido")]
-        string Email { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [MinLength(6, ErrorMessage ="A senha deve possuir ao menos 6 caracteres")]
-        string Senha { get; set; }
+        public string Senha { get; set; }
 
     }
 }

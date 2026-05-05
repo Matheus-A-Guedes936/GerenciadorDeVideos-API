@@ -1,6 +1,8 @@
 using GerenciadorDeVideos_API.Data;
-using GerenciadorDeVideos_API.Interface;
+using GerenciadorDeVideos_API.Interface.IRepository;
+using GerenciadorDeVideos_API.Interface.IServices;
 using GerenciadorDeVideos_API.Repository;
+using GerenciadorDeVideos_API.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IVideosRepository, VideosRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IVideosService, VideosService>();
 
 var app = builder.Build();
 
@@ -28,6 +32,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseAuthorization();
 

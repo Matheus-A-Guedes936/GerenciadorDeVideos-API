@@ -1,5 +1,5 @@
 ﻿using GerenciadorDeVideos_API.Data;
-using GerenciadorDeVideos_API.Interface;
+using GerenciadorDeVideos_API.Interface.IRepository;
 using GerenciadorDeVideos_API.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,7 +43,7 @@ namespace GerenciadorDeVideos_API.Repository
             return usuario;
         }
 
-        public async Task<UsuarioModel> EditarUsuario(UsuarioModel usuario)
+        public async Task<UsuarioModel> EditarUsuario( UsuarioModel usuario)
         {
             _context.Update(usuario);
             await _context.SaveChangesAsync();
