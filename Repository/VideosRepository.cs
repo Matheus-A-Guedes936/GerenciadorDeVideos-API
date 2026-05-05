@@ -1,5 +1,5 @@
 ﻿using GerenciadorDeVideos_API.Data;
-using GerenciadorDeVideos_API.Interface;
+using GerenciadorDeVideos_API.Interface.IRepository;
 using GerenciadorDeVideos_API.Model;
 using GerenciadorDeVideos_API.Model.Enums;
 using Microsoft.EntityFrameworkCore;

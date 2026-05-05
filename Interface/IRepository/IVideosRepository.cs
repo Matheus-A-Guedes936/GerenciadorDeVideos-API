@@ -1,7 +1,7 @@
 ﻿using GerenciadorDeVideos_API.Model;
 using GerenciadorDeVideos_API.Model.Enums;
 
-namespace GerenciadorDeVideos_API.Interface
+namespace GerenciadorDeVideos_API.Interface.IRepository
 {
     public interface IVideosRepository
     {
