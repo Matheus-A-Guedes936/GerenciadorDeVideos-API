@@ -1,4 +1,121 @@
 @GerenciadorDeVideos_API_HostAddress = http://localhost:5003
 
+### --- ENDPOINTS DE Usuários ---
+
+### Listar todos os usuários
+GET {{GerenciadorDeVideos_API_HostAddress}}/api/Usuario/BuscarTodosUsuarios
+Accept: application/json
 
 ###
+
+### Buscar usuário por ID  
+GET {{GerenciadorDeVideos_API_HostAddress}}/api/Usuario/BuscarUsuarioPorID/1
+Accept: application/json
+
+###
+
+### Buscar por Email
+GET {{GerenciadorDeVideos_API_HostAddress}}/api/Usuario/BuscarUsuarioPorEmail/matheus2@teste.com
+Accept: application/json
+
+###
+
+### Criar um novo usuário
+POST {{GerenciadorDeVideos_API_HostAddress}}/api/Usuario/AdicionarUsuario
+Content-Type: application/json
+
+{
+  "nome": "teste5",
+  "email": "teste5@123.com",
+  "senha": "1234567"
+}
+
+###
+
+### Editar usuário 
+PUT {{GerenciadorDeVideos_API_HostAddress}}/api/Usuario/EditarUsuario/1
+Content-Type: application/json
+
+{
+  "nome": "teste",
+  "email": "teste@123.com",
+  "senhaAtual": "1234567"
+
+}
+
+###
+
+### Remover usuário
+DELETE {{GerenciadorDeVideos_API_HostAddress}}/api/Usuario/RemoverUsuario/2
+
+
+### --- ENDPOINTS DE VÍDEOS ---
+
+### Listar todos os vídeos
+GET {{GerenciadorDeVideos_API_HostAddress}}/api/Videos/BuscarTodosVideos
+Accept: application/json
+
+###
+
+### Buscar vídeo por ID
+GET {{GerenciadorDeVideos_API_HostAddress}}/api/Videos/BuscarVideoPorID/7
+Accept: application/json
+
+###
+
+### Buscar vídeos por título
+GET {{GerenciadorDeVideos_API_HostAddress}}/api/Videos/BuscarVideosPorTitulo/teste
+Accept: application/json
+
+###
+
+### Buscar vídeos por categoria (É um Enum, 1 a 5)
+GET {{GerenciadorDeVideos_API_HostAddress}}/api/Videos/BuscarVideosPorCategoria/5
+Accept: application/json
+
+###
+
+### Buscar vídeos por ID do Usuário
+GET {{GerenciadorDeVideos_API_HostAddress}}/api/Videos/BuscarVideosPorUsuarioID/3
+Accept: application/json
+
+###
+
+### Adicionar um novo vídeo (PS : aparentemente esse .http não lida muito bem com o upload de arquivos, se for testar aconselho utilizar o swagger ou o scalar)
+POST {{GerenciadorDeVideos_API_HostAddress}}/api/Videos/AdicionarVideo
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="Titulo"
+
+Teste9
+--boundary
+Content-Disposition: form-data; name="Categoria"
+
+5
+--boundary
+Content-Disposition: form-data; name="UsuarioID"
+
+3
+--boundary
+Content-Disposition: form-data; name="ArquivoVideo"; filename="1.mp4"
+Content-Type: video/mp4
+
+< ./1.mp4
+--boundary--
+
+###
+
+### Editar dados do vídeo (A categoria precisa estar listada no Enum, se preferir poe de 1 a 5)
+PUT {{GerenciadorDeVideos_API_HostAddress}}/api/Videos/EditarVideo/2
+Content-Type: application/json
+
+{
+  "titulo": "Título Atualizado",
+  "categoria": "4"
+}
+
+###
+
+### Remover vídeo
+DELETE {{GerenciadorDeVideos_API_HostAddress}}/api/Videos/RemoverVideo/2
