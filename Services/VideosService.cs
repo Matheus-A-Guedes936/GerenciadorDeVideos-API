@@ -18,9 +18,9 @@ namespace GerenciadorDeVideos_API.Services
             _usuarioRepository = usuarioRepository;
         }
 
-        public async Task<IEnumerable<VideosRespostaDto>> BusacarTodosVideos()
+        public async Task<IEnumerable<VideosRespostaDto>> BuscarTodosVideos()
         {
-            var videosModel = await _videosRepository.BusacarTodosVideos();
+            var videosModel = await _videosRepository.BuscarTodosVideos();
 
             return MapeamentoTodosParaDto(videosModel);
         }
@@ -54,7 +54,15 @@ namespace GerenciadorDeVideos_API.Services
         public async Task<VideosRespostaDto?> AdicionarVideo(VideosCriacaoDto adicionarVideoDto)
         {
             var usuarioExiste = await _usuarioRepository.ObterUsuarioPorId(adicionarVideoDto.UsuarioID);
-            if (usuarioExiste == null) return null;
+            if (usuarioExiste == null)
+            {
+                throw new Exception($"O usuário com ID {adicionarVideoDto.UsuarioID} não existe no sistema.");
+            }
+
+            if (adicionarVideoDto.ArquivoVideo.Length < 1024) 
+            {
+                throw new Exception("O arquivo enviado é pequeno demais para ser um vídeo válido.");
+            }
 
             var pastaUsuario = Path.Combine(Directory.GetCurrentDirectory(),
                 "wwwroot",

@@ -15,7 +15,7 @@ namespace GerenciadorDeVideos_API.Repository
             _context = context;
         }
 
-        public async Task<List<VideosModel>> BusacarTodosVideos()
+        public async Task<List<VideosModel>> BuscarTodosVideos()
         {
            return await _context.Videos.ToListAsync();
         }

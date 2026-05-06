@@ -5,7 +5,7 @@ namespace GerenciadorDeVideos_API.Interface.IRepository
 {
     public interface IVideosRepository
     {
-        Task<List<VideosModel>> BusacarTodosVideos();
+        Task<List<VideosModel>> BuscarTodosVideos();
         Task<VideosModel?> BuscarVideoPorId(int videoID);
         Task<List<VideosModel>> BuscarVideosPorTitulo(string videoNome);
         Task<List<VideosModel>> BuscarVideosPorCategoria(CategoriaVideo categoria);
