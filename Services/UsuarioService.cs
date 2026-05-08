@@ -9,10 +9,44 @@ namespace GerenciadorDeVideos_API.Services
     {
 
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly ITokenService _tokenService;   
 
-        public UsuarioService(IUsuarioRepository usuarioRepository)
+        public UsuarioService(IUsuarioRepository usuarioRepository, ITokenService tokenService)
         {
             _usuarioRepository = usuarioRepository;
+            _tokenService = tokenService;
+        }
+
+        public async Task<ResponseModel<string>> Login(UsuarioLoginDto loginDto)
+            {
+            var usuario = await _usuarioRepository.ObterUsuarioPorEmail(loginDto.Email);
+
+            if (usuario == null)
+            {
+                return new ResponseModel<string>
+                {
+                    Status = false,
+                    Mensagem = "Email inválidos."
+                };
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(loginDto.Senha, usuario.Senha))
+            {
+                return new ResponseModel<string>
+                {
+                    Status = false,
+                    Mensagem = "Senha inválida."
+                };
+            }
+
+            var token = _tokenService.GerarToken(usuario);
+
+            return new ResponseModel<string>
+            {
+                Dados = token,
+                Status = true,
+                Mensagem = "Login realizado com sucesso."
+            };
         }
 
         public async Task<IEnumerable<UsuarioRespostaDto>> ObterTodos()

@@ -2,6 +2,7 @@
 using GerenciadorDeVideos_API.Interface.IServices;
 using GerenciadorDeVideos_API.Model;
 using GerenciadorDeVideos_API.Model.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Formats.Asn1;
@@ -19,6 +20,7 @@ namespace GerenciadorDeVideos_API.Controllers
             _videosService = videosService;
         }
 
+        [Authorize]
         [HttpGet("BuscarTodosVideos")]
         public async Task<ActionResult<ResponseModel<List<VideosRespostaDto>>>> BuscarTodosVideos()
         {
@@ -31,6 +33,7 @@ namespace GerenciadorDeVideos_API.Controllers
             });
         }
 
+        [Authorize]
         [HttpGet("BuscarVideoPorID/{videoID}")]
         public async Task<ActionResult<ResponseModel<VideosRespostaDto>>> BuscarVideoPorId(int videoID)
         {
@@ -49,6 +52,7 @@ namespace GerenciadorDeVideos_API.Controllers
             });
         }
 
+        [Authorize]
         [HttpGet("BuscarVideosPorTitulo/{titulo}")]
         public async Task<ActionResult<ResponseModel<List<VideosRespostaDto>>>> BuscarVideosPorTitulo(string titulo)
         {
@@ -67,6 +71,7 @@ namespace GerenciadorDeVideos_API.Controllers
             });
         }
 
+        [Authorize]
         [HttpGet("BuscarVideosPorCategoria/{categoria}")]
         public async Task<ActionResult<ResponseModel<List<VideosRespostaDto>>>> BuscarVideosPorCategoria(CategoriaVideo categoria)
         {
@@ -85,6 +90,7 @@ namespace GerenciadorDeVideos_API.Controllers
             });
         }
 
+        [Authorize]
         [HttpGet("BuscarVideosPorUsuarioID/{usuarioID}")]
         public async Task<ActionResult<ResponseModel<List<VideosRespostaDto>>>> BuscarVideosPorUsuarioID(int usuarioID)
         {
@@ -103,6 +109,7 @@ namespace GerenciadorDeVideos_API.Controllers
             });
         }
 
+        [Authorize]
         [HttpPost("AdicionarVideo")]
         public async Task<ActionResult<ResponseModel<VideosRespostaDto>>> AdicionarVideo([FromForm] VideosCriacaoDto adicionarVideoDto)
         {
@@ -129,6 +136,7 @@ namespace GerenciadorDeVideos_API.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("EditarVideo/{videoId}")]
         public async Task<ActionResult<ResponseModel<VideosRespostaDto>>> EditarVideo(VideosAtualizacaoDto atualizarVideoDto, int videoId)
         {
@@ -147,6 +155,7 @@ namespace GerenciadorDeVideos_API.Controllers
             });
         }
 
+        [Authorize]
         [HttpDelete("RemoverVideo/{videoId}")]
         public async Task<ActionResult<ResponseModel<string>>> RemoverVideo(int videoId)
         {

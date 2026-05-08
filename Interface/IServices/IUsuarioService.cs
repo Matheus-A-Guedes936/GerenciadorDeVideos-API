@@ -1,10 +1,12 @@
 ﻿using GerenciadorDeVideos_API.DTOs.Usuarios;
+using GerenciadorDeVideos_API.Model;
 
 namespace GerenciadorDeVideos_API.Interface.IServices
 {
     public interface IUsuarioService
     {
         Task<IEnumerable<UsuarioRespostaDto>> ObterTodos();
+        Task<ResponseModel<string>> Login(UsuarioLoginDto loginDto);
         Task<UsuarioRespostaDto> ObterUsuarioPorId(int id);
         Task<UsuarioRespostaDto> ObterUsuarioPorEmail(string email);
         Task<IEnumerable<UsuarioRespostaDto>> ObterUsuarioPorNome(string nome);

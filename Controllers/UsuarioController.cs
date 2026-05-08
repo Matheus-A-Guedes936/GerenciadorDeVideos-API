@@ -1,6 +1,7 @@
 ﻿using GerenciadorDeVideos_API.DTOs.Usuarios;
 using GerenciadorDeVideos_API.Interface.IServices;
 using GerenciadorDeVideos_API.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,72 +16,6 @@ namespace GerenciadorDeVideos_API.Controllers
         public UsuarioController(IUsuarioService usuarioService)
         {
             _usuarioService = usuarioService;
-        }
-
-        [HttpGet("BuscarTodosUsuarios")]
-        public async Task<ActionResult<ResponseModel<List<UsuarioRespostaDto>>>> ObterTodosUsuarios()
-        {
-            var usuarios = await _usuarioService.ObterTodos();
-            return Ok(new ResponseModel<List<UsuarioRespostaDto>>
-            {
-                Status = true,
-                Mensagem = "Usuários obtidos com sucesso",
-                Dados = usuarios.ToList()
-            });
-        }
-
-        [HttpGet("BuscarUsuarioPorID/{usuarioId}")]
-        public async Task<ActionResult<ResponseModel<UsuarioRespostaDto>>> ObterUsuarioPorId(int usuarioId)
-        {
-            var usuario = await _usuarioService.ObterUsuarioPorId(usuarioId);
-            if (usuario == null) return NotFound(new ResponseModel<UsuarioRespostaDto>
-            {
-                Status = false,
-                Mensagem = "Usuário não encontrado",
-                Dados = null
-            });
-            return Ok(new ResponseModel<UsuarioRespostaDto>
-            {
-                Status = true,
-                Mensagem = "Usuário obtido com sucesso",
-                Dados = usuario
-            });
-        }
-
-        [HttpGet("BuscarUsuarioPorEmail/{usuarioEmail}")]
-        public async Task<ActionResult<ResponseModel<UsuarioRespostaDto>>> ObterUsuarioPorEmail(string usuarioEmail)
-        {
-            var usuario = await _usuarioService.ObterUsuarioPorEmail(usuarioEmail);
-            if (usuario == null) return NotFound(new ResponseModel<UsuarioRespostaDto>
-            {
-                Status = false,
-                Mensagem = $"Usuário com email {usuarioEmail} não encontrado",
-                Dados = null
-            });
-            return Ok(new ResponseModel<UsuarioRespostaDto>
-            {
-                Status = true,
-                Mensagem = "Usuário obtido com sucesso",
-                Dados = usuario
-            });
-        }
-
-        [HttpGet("BuscarUsuarioPorNome/{usuarioNome}")]
-        public async Task<ActionResult<ResponseModel<List<UsuarioRespostaDto>>>> ObterUsuarioPorNome(string usuarioNome)
-        {
-            var usuarios = await _usuarioService.ObterUsuarioPorNome(usuarioNome);
-            if (usuarios == null || !usuarios.Any()) return NotFound(new ResponseModel<List<UsuarioRespostaDto>>
-            {
-                Status = false,
-                Mensagem = $"Nenhum usuário com nome {usuarioNome} encontrado",
-                Dados = null
-            });
-            return Ok(new ResponseModel<List<UsuarioRespostaDto>>
-            {
-                Status = true,
-                Mensagem = "Usuários obtidos com sucesso",
-                Dados = usuarios.ToList()
-            });
         }
 
         [HttpPost("AdicionarUsuario")]
@@ -101,6 +36,76 @@ namespace GerenciadorDeVideos_API.Controllers
             });
         }
 
+        [Authorize]
+        [HttpGet("BuscarTodosUsuarios")]
+        public async Task<ActionResult<ResponseModel<List<UsuarioRespostaDto>>>> ObterTodosUsuarios()
+        {
+            var usuarios = await _usuarioService.ObterTodos();
+            return Ok(new ResponseModel<List<UsuarioRespostaDto>>
+            {
+                Status = true,
+                Mensagem = "Usuários obtidos com sucesso",
+                Dados = usuarios.ToList()
+            });
+        }
+
+        [Authorize]
+        [HttpGet("BuscarUsuarioPorID/{usuarioId}")]
+        public async Task<ActionResult<ResponseModel<UsuarioRespostaDto>>> ObterUsuarioPorId(int usuarioId)
+        {
+            var usuario = await _usuarioService.ObterUsuarioPorId(usuarioId);
+            if (usuario == null) return NotFound(new ResponseModel<UsuarioRespostaDto>
+            {
+                Status = false,
+                Mensagem = "Usuário não encontrado",
+                Dados = null
+            });
+            return Ok(new ResponseModel<UsuarioRespostaDto>
+            {
+                Status = true,
+                Mensagem = "Usuário obtido com sucesso",
+                Dados = usuario
+            });
+        }
+
+        [Authorize]
+        [HttpGet("BuscarUsuarioPorEmail/{usuarioEmail}")]
+        public async Task<ActionResult<ResponseModel<UsuarioRespostaDto>>> ObterUsuarioPorEmail(string usuarioEmail)
+        {
+            var usuario = await _usuarioService.ObterUsuarioPorEmail(usuarioEmail);
+            if (usuario == null) return NotFound(new ResponseModel<UsuarioRespostaDto>
+            {
+                Status = false,
+                Mensagem = $"Usuário com email {usuarioEmail} não encontrado",
+                Dados = null
+            });
+            return Ok(new ResponseModel<UsuarioRespostaDto>
+            {
+                Status = true,
+                Mensagem = "Usuário obtido com sucesso",
+                Dados = usuario
+            });
+        }
+        [Authorize]
+        [HttpGet("BuscarUsuarioPorNome/{usuarioNome}")]
+        public async Task<ActionResult<ResponseModel<List<UsuarioRespostaDto>>>> ObterUsuarioPorNome(string usuarioNome)
+        {
+            var usuarios = await _usuarioService.ObterUsuarioPorNome(usuarioNome);
+            if (usuarios == null || !usuarios.Any()) return NotFound(new ResponseModel<List<UsuarioRespostaDto>>
+            {
+                Status = false,
+                Mensagem = $"Nenhum usuário com nome {usuarioNome} encontrado",
+                Dados = null
+            });
+            return Ok(new ResponseModel<List<UsuarioRespostaDto>>
+            {
+                Status = true,
+                Mensagem = "Usuários obtidos com sucesso",
+                Dados = usuarios.ToList()
+            });
+        }
+
+        [Authorize]
         [HttpPut("EditarUsuario/{usuarioId}")]
         public async Task<ActionResult<ResponseModel<UsuarioRespostaDto>>> EditarUsuario(int usuarioId, UsuarioAtualizacaoDto usuarioAtualizacaoDto)
         {
@@ -119,6 +124,7 @@ namespace GerenciadorDeVideos_API.Controllers
             });
         }
 
+        [Authorize]
         [HttpDelete("RemoverUsuario/{usuarioId}")]
         public async Task<ActionResult<ResponseModel<bool>>> RemoverUsuario(int usuarioId)
         {

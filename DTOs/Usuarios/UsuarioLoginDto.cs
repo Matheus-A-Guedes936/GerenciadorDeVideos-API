@@ -6,9 +6,9 @@ namespace GerenciadorDeVideos_API.DTOs.Usuarios
     {
         [Required]
         [EmailAddress(ErrorMessage = "Email invalido")]
-        string Email { get; set; }
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "Porfavor Digite Sua senha")]
-        string Senha { get; set; }
+        public string Senha { get; set; }
     }
 }
