@@ -1,8 +1,10 @@
 using GerenciadorDeVideos_API.Data;
 using GerenciadorDeVideos_API.Interface.IRepository;
 using GerenciadorDeVideos_API.Interface.IServices;
+using GerenciadorDeVideos_API.Interface.IServices.IAuth;
 using GerenciadorDeVideos_API.Repository;
 using GerenciadorDeVideos_API.Services;
+using GerenciadorDeVideos_API.Services.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
@@ -94,6 +96,8 @@ builder.Services.AddScoped<IVideosRepository, VideosRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IVideosService, VideosService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUsuarioLogadoService, UsuarioLogadoService>();
 
 var app = builder.Build();
 

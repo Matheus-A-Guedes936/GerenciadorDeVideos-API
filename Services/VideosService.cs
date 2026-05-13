@@ -1,6 +1,7 @@
 ﻿using GerenciadorDeVideos_API.DTOs.Videos;
 using GerenciadorDeVideos_API.Interface.IRepository;
 using GerenciadorDeVideos_API.Interface.IServices;
+using GerenciadorDeVideos_API.Interface.IServices.IAuth;
 using GerenciadorDeVideos_API.Model;
 using GerenciadorDeVideos_API.Model.Enums;
 using System.Runtime;
@@ -9,13 +10,15 @@ namespace GerenciadorDeVideos_API.Services
 {
     public class VideosService : IVideosService
     {
-        private readonly IVideosRepository _videosRepository;
+        private readonly IVideosRepository _videosRepository;   
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IUsuarioLogadoService _usuarioLogadoService;
 
-        public VideosService(IVideosRepository videosRepository , IUsuarioRepository usuarioRepository)
+        public VideosService(IVideosRepository videosRepository , IUsuarioRepository usuarioRepository, IUsuarioLogadoService usuarioLogadoService)
         {
             _videosRepository = videosRepository;
             _usuarioRepository = usuarioRepository;
+            _usuarioLogadoService = usuarioLogadoService;
         }
 
         public async Task<IEnumerable<VideosRespostaDto>> BuscarTodosVideos()
@@ -53,21 +56,28 @@ namespace GerenciadorDeVideos_API.Services
 
         public async Task<VideosRespostaDto?> AdicionarVideo(VideosCriacaoDto adicionarVideoDto)
         {
-            var usuarioExiste = await _usuarioRepository.ObterUsuarioPorId(adicionarVideoDto.UsuarioID);
+            int? usuarioLogado = _usuarioLogadoService.GetUsuarioId();
+
+            if(!usuarioLogado.HasValue)
+            {
+                throw new UnauthorizedAccessException("Usuário não autenticado.");
+            }
+
+            var usuarioExiste = await _usuarioRepository.ObterUsuarioPorId(usuarioLogado.Value);
             if (usuarioExiste == null)
             {
-                throw new Exception($"O usuário com ID {adicionarVideoDto.UsuarioID} não existe no sistema.");
+                throw new KeyNotFoundException($"O usuário com ID {usuarioLogado.Value} não existe no sistema.");
             }
 
             if (adicionarVideoDto.ArquivoVideo.Length < 1024) 
             {
-                throw new Exception("O arquivo enviado é pequeno demais para ser um vídeo válido.");
+                throw new BadHttpRequestException("O arquivo enviado é pequeno demais para ser um vídeo válido.");
             }
 
             var pastaUsuario = Path.Combine(Directory.GetCurrentDirectory(),
                 "wwwroot",
                 "videos",
-                adicionarVideoDto.UsuarioID.ToString());
+                usuarioLogado.Value.ToString());
 
             if (!Directory.Exists(pastaUsuario)){
                 Directory.CreateDirectory(pastaUsuario);
@@ -86,8 +96,8 @@ namespace GerenciadorDeVideos_API.Services
             {
                 Titulo = adicionarVideoDto.Titulo,
                 Categoria = adicionarVideoDto.Categoria,
-                UsuarioID = adicionarVideoDto.UsuarioID,
-                CaminhoVideo = $"/videos/{adicionarVideoDto.UsuarioID}/{nomeArquivo}"
+                UsuarioID = usuarioLogado.Value,
+                CaminhoVideo = Path.Combine("videos", usuarioLogado.Value.ToString(), nomeArquivo)
             };
 
             var videoCriado = await _videosRepository.AdicionarVideo(videosModel);

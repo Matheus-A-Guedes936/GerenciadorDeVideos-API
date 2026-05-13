@@ -13,9 +13,6 @@ namespace GerenciadorDeVideos_API.DTOs.Videos
         [EnumDataType(typeof(CategoriaVideo), ErrorMessage = "Categoria invalida.")]
         public CategoriaVideo Categoria { get; set; }
 
-        [Required(ErrorMessage = "Usuario inválido.")]
-        public int UsuarioID { get; set; }
-
         [Required(ErrorMessage = "Arquivo invalido.")]
         public IFormFile ArquivoVideo { get; set; }
     }
