@@ -1,6 +1,7 @@
 ﻿using GerenciadorDeVideos_API.DTOs.Usuarios;
 using GerenciadorDeVideos_API.Interface.IRepository;
 using GerenciadorDeVideos_API.Interface.IServices;
+using GerenciadorDeVideos_API.Interface.IServices.IAuth;
 using GerenciadorDeVideos_API.Model;
 
 namespace GerenciadorDeVideos_API.Services
